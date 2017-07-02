@@ -1,0 +1,76 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}
+    {{ cache.title }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background-color: #f9f9f9;
+        }
+        .column {
+            max-width: 600px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        #main-grid {
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+        #author-segment {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div id="main-grid" class="ui centered grid">
+        <div class="column">
+                <h1 class="ui top attached centered header">
+                    {{ cache.title }}
+                </h1>
+                <div class="ui center aligned attached segment">
+                    <img class="ui fluid image" src="{{ asset('files/images/') }}{{ cache.hash }}.jpg">
+                </div>
+                <div class="ui attached center aligned segment">
+                    <p>{{ cache.message }}</p>
+                </div>
+                <div class="ui bottom attached center aligned segment">
+                    <button id="clue-button" class="ui blue big button">
+                        <i class="talk icon"></i>
+                        Show clue
+                    </button>
+                </div>
+            <div id="author-segment" class="ui basic center aligned segment">
+                <i class="archive icon"></i> Treasure left by {{ cache.author }}
+            </div>
+        </div>
+    </div>
+
+    <div class="ui page dimmer">
+        <div class="content">
+            <div class="center">
+                <h2 class="ui inverted icon header">
+                    <i class="talk icon"></i>
+                    Clue
+                    <div class="sub header">{{ cache.clue }}</div>
+                </h2>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript%}
+    <script>
+        $(document).ready(function() {
+            $('#clue-button').on('click', function () {
+                $('.page.dimmer:first')
+                    .dimmer('toggle')
+                ;
+            });
+        });
+    </script>
+{% endblock %}
