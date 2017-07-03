@@ -2,6 +2,8 @@
 
 namespace GeocachingTool;
 
+use GeocachingTool\Cache;
+
 class User
 {
     private $key;
@@ -128,5 +130,64 @@ class User
     private function readCookie()
     {
         return $_COOKIE['user_key'];
+    }
+
+    /**
+     * Get array of cache objects that belong to this user
+     * and set $this->caches to this array
+     */
+    public function getCaches()
+    {
+        $queryBuilder = $this->app['db']->createQueryBuilder();
+        $queryBuilder
+            ->select('*')
+            ->from('cache')
+            ->where('user_id = ' . '"' . $this->getId() . '"')
+            ->orderby('id', 'DESC');
+        $query = $queryBuilder->getSql();
+        $caches = $this->app['db']->fetchall($query);
+
+        // Add creation_time_ago item to each cache
+        $timeAgo = new \TimeAgo();
+        foreach ($caches as $key => $cache) {
+            $caches[$key]['creation_time_ago'] = $timeAgo->inWords($cache['creation_moment']);
+        }
+
+        return $caches;
+    }
+
+    public function saveNewCache($author, $title, $message, $clue, $hash)
+    {
+        $date = new \DateTime();
+        $dateFormated = $date->format('Y-m-d H:i:s');
+
+        $queryBuilder = $this->app['db']->createQueryBuilder();
+        $queryBuilder
+            ->insert('cache')
+            ->values(
+                array(
+                    'author' => '?',
+                    'title' => '?',
+                    'description' => '?',
+                    'message' => '?',
+                    'clue' => '?',
+                    'keywords' => '?',
+                    'user_id' => '?',
+                    'hash' => '?',
+                    'views_count' => '?',
+                    'creation_moment' => '?'
+                )
+            )
+            ->setParameter(0, $author)
+            ->setParameter(1, $title)
+            ->setParameter(2, 'There\'s a treasure nearby!')
+            ->setParameter(3, $message)
+            ->setParameter(4, $clue)
+            ->setParameter(5, '')
+            ->setParameter(6, $this->getId())
+            ->setParameter(7, $hash)
+            ->setParameter(8, 0)
+            ->setParameter(9, $dateFormated);
+        $queryBuilder->execute();
     }
 }
