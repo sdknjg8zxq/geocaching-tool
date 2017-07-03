@@ -2,6 +2,8 @@
 
 use Silex\Application;
 use Silex\Provider\AssetServiceProvider;
+use Silex\Provider\FormServiceProvider;
+use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\HttpFragmentServiceProvider;
@@ -27,5 +29,10 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     ),
 ));
 $app->register(new \GeocachingTool\Provider\UserServiceProvider());
-
+$app->register(new FormServiceProvider());
+$app->register(new Silex\Provider\TranslationServiceProvider(), array(
+    'translator.domains' => array(),
+));
+$app->register(new LocaleServiceProvider());
+$app->register(new Silex\Provider\ValidatorServiceProvider());
 return $app;
