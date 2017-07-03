@@ -156,7 +156,7 @@ class User
         return $caches;
     }
 
-    public function saveNewCache($author, $title, $message, $clue, $hash)
+    public function saveNewCache($author, $title, $message, $clue, $hash, $shortURL)
     {
         $date = new \DateTime();
         $dateFormated = $date->format('Y-m-d H:i:s');
@@ -175,7 +175,8 @@ class User
                     'user_id' => '?',
                     'hash' => '?',
                     'views_count' => '?',
-                    'creation_moment' => '?'
+                    'creation_moment' => '?',
+                    'short_url' => '?'
                 )
             )
             ->setParameter(0, $author)
@@ -187,7 +188,8 @@ class User
             ->setParameter(6, $this->getId())
             ->setParameter(7, $hash)
             ->setParameter(8, 0)
-            ->setParameter(9, $dateFormated);
+            ->setParameter(9, $dateFormated)
+            ->setParameter(10, $shortURL);
         $queryBuilder->execute();
     }
 }

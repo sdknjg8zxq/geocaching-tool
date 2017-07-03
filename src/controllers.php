@@ -46,7 +46,6 @@ $app->get('/cache/{hash}', function (Silex\Application $app, $hash) {
 
 // Create new cache(treasure)
 $app->match('new', function (Request $request) use ($app) {
-
     $form = $app['form.factory']->createBuilder(FormType::class)
         ->add('title', TextType::class, array(
             'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('max' => 80))),
@@ -78,9 +77,22 @@ $app->match('new', function (Request $request) use ($app) {
         // ... perform some action, such as saving the data to the database
         $hash = Cache::getNewHash();
 
+        $cacheUrl = 'https://' . $request->getHost() . '/cache/' . $hash;
+
+        // Get short URL from Google
+        $client = new Google_Client();
+        $client->addScope("https://www.googleapis.com/auth/urlshortener");
+        $client->setDeveloperKey($app['google.options']['api_key']);
+
+        $service = new Google_Service_Urlshortener($client);
+        $url = new Google_Service_Urlshortener_Url();
+        $url->longUrl = $cacheUrl;
+        $short = $service->url->insert($url);
+        $shortURL = $short->getId();
+
         // Save cache in database
         $user = $app['user'];
-        $user->saveNewCache($data['author'], $data['title'], $data['message'], $data['clue'], $hash);
+        $user->saveNewCache($data['author'], $data['title'], $data['message'], $data['clue'], $hash, $shortURL);
 
         // Save image
         $data['image']->move(getcwd() . '/files/images', $hash);
