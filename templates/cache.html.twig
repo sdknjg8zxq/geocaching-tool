@@ -33,20 +33,24 @@
                     {{ cache.title }}
                 </h1>
                 <div class="ui center aligned attached segment">
-                    <img class="ui fluid image" src="{{ asset('files/images/') }}{{ cache.hash }}.jpg">
+                    <img class="ui fluid image" src="{{ asset('files/images/') }}{{ cache.hash }}">
                 </div>
-                <div class="ui attached center aligned segment">
+                <div class="ui {% if not cache.clue %}bottom {% endif %}attached center aligned segment">
                     <p>{{ cache.message }}</p>
                 </div>
-                <div class="ui bottom attached center aligned segment">
-                    <button id="clue-button" class="ui blue big button">
-                        <i class="talk icon"></i>
-                        Show clue
-                    </button>
-                </div>
-            <div id="author-segment" class="ui basic center aligned segment">
-                <i class="archive icon"></i> Treasure left by {{ cache.author }}
-            </div>
+                {% if cache.clue %}
+                    <div class="ui bottom attached center aligned segment">
+                        <button id="clue-button" class="ui blue big button">
+                            <i class="talk icon"></i>
+                            Show clue
+                        </button>
+                    </div>
+                {% endif %}
+                {% if cache.author %}
+                    <div id="author-segment" class="ui basic center aligned segment">
+                        <i class="archive icon"></i> Treasure left by {{ cache.author }}
+                    </div>
+                {% endif %}
         </div>
     </div>
 

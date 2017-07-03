@@ -1,0 +1,75 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}
+    New treasure | Geocaching Tool
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #content {
+            margin-left: 210px;
+            padding: 25px;
+        }
+        #cache-cards-group .card .image {
+            height: 200px;
+            background-size: cover;
+            background-position: 50% 50%;
+        }
+        .ui.form {
+            max-width: 800px;
+        }
+        #required-field-notice {
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {# Include left menu #}
+    {% include 'menu.html.twig' with {'active_item': 'create-treasure'} %}
+
+    {# Content #}
+    <div id="content">
+        <div class="ui basic segment">
+            <h1 class="ui dividing header">
+                <div class="content">
+                    New treasure
+                </div>
+            </h1>
+            {{ form_start(form, {'attr': {'class': 'ui form'}}) }}
+                <div class="two fields">
+                    <div class="field">
+                        {{ form_label(form.title) }}
+                        {{ form_widget(form.title, {'attr': {'placeholder': 'A treasure is nearby', 'autofocus': 'autofocus'}}) }}
+                        {{ form_errors(form.title) }}
+                    </div>
+                    <div class="field">
+                        {{ form_label(form.author) }}
+                        {{ form_widget(form.author, {'attr': {'placeholder': 'Your name, nickname, or company name'}}) }}
+                        {{ form_errors(form.author) }}
+                    </div>
+                </div>
+                <div class="field">
+                    {{ form_label(form.message) }}
+                    {{ form_widget(form.message, {'attr': {'placeholder': 'Find me if you can...', 'rows': 2, 'maxlength': 140}}) }}
+                    {{ form_errors(form.message) }}
+                </div>
+                <div class="field">
+                    {{ form_label(form.image) }}
+                    {{ form_widget(form.image, {'attr': {'accept': 'image/*'}}) }}
+                    {{ form_errors(form.image) }}
+                </div>
+                <div class="field">
+                    {{ form_label(form.clue) }}
+                    {{ form_widget(form.clue, {'attr': {'placeholder': 'Leave a clue to find this treasure'}}) }}
+                    {{ form_errors(form.clue) }}
+                </div>
+            {{ form_errors(form) }}
+                <button class="ui button" type="submit">Create</button>
+                <p id="required-field-notice">* Required field</p>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

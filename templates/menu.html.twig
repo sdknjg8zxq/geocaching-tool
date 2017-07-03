@@ -1,0 +1,11 @@
+{# Left navigation menu #}
+<div class="ui left fixed vertical menu">
+    <div class="item">
+        <p>
+            <i class="marker icon"></i> Geocaching Tool
+        </p>
+    </div>
+    <a href="{{ path('homepage') }}" class="{% if active_item == 'my-treasures' %}active{% endif %} item">My treasures</a>
+    <a href="{{ path('new cache') }}" class="{% if active_item == 'create-treasure' %}active{% endif %} item">Create treasure</a>
+    <a class="item">Help</a>
+</div>

@@ -1,5 +1,88 @@
 {% extends "layout.html.twig" %}
 
+{% block title %}
+    My treasures | Geocaching Tool
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #content {
+            margin-left: 210px;
+            padding: 25px;
+        }
+        #cache-cards-group .card .image {
+            height: 200px;
+            background-size: cover;
+            background-position: 50% 50%;
+        }
+        #welcome-segment {
+            font-size: 16px;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-    Welcome to your new Silex Application!
+    {# Include left menu #}
+    {% include 'menu.html.twig' with {'active_item': 'my-treasures'} %}
+
+    {# Content #}
+    <div id="content">
+        {% if caches %}
+            {# Treasure cards group#}
+            <div id="cache-cards-group" class="ui link cards">
+                {% for cache in caches %}
+                <div class="card">
+                    <div class="image" style="background-image: url({{ asset('files/images/') }}{{ cache.hash }})">
+                    </div>
+                    <div class="content">
+                        <div class="header">{{ cache.title }}</div>
+                        <div class="description">
+                            {{ cache.message }}
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <span class="right floated">{{ cache.creation_time_ago }}</span>
+                        <span>
+                            <i class="eye icon"></i> {{ cache.views_count }}
+                        </span>
+                    </div>
+                    <div class="extra content">
+                        <div class="ui left icon input">
+                            <i class="linkify icon"></i>
+                            <input class="short-url-input" type="text" placeholder="Short URL" value="https://placeholder">
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div id="welcome-segment" class="ui basic segment">
+                <h1 class="ui header">
+                    <div class="content">
+                        Welcome
+                    </div>
+                </h1>
+                <p>This tool helps you easily create caches(treasures) for your Bluetooth beacons.</p>
+                <ol class="ui list">
+                    <li>Create a treasure</li>
+                    <li>Get a short URL</li>
+                    <li>Point your beacon to that URL</li>
+                </ol>
+                <a class="ui primary button" href="{{ app.url_generator.generate('new cache') }}">
+                    Create first treasure
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascript%}
+    <script>
+        $(document).ready(function() {
+            $('.short-url-input').on('click', function () {
+                $(this).select();
+            });
+        });
+    </script>
 {% endblock %}
