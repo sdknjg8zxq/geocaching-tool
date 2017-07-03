@@ -22,7 +22,8 @@
         "symfony/translation": "~2.8|^3.0",
         "symfony/twig-bridge": "~2.8|^3.0",
         "symfony/validator": "~2.8|^3.0",
-        "doctrine/dbal": "~2.2"
+        "doctrine/dbal": "~2.2",
+        "jimmiw/php-time-ago": "^0.4.15"
     },
     "autoload": {
         "psr-0": { "": "src/" }

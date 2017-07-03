@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f54bb5099c1027d7c922ab9345169200",
+    "content-hash": "294aeb90330893ac3328f44848126723",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -474,6 +474,53 @@
                 "parser"
             ],
             "time": "2014-09-09T13:34:57+00:00"
+        },
+        {
+            "name": "jimmiw/php-time-ago",
+            "version": "0.4.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jimmiw/php-time-ago.git",
+                "reference": "2bd8b75d3034b9ce996f96bee8c38e79525f6758"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jimmiw/php-time-ago/zipball/2bd8b75d3034b9ce996f96bee8c38e79525f6758",
+                "reference": "2bd8b75d3034b9ce996f96bee8c38e79525f6758",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=4"
+            },
+            "require-dev": {
+                "phpunit/dbunit": "2.0.*",
+                "phpunit/phpunit": "5.*@stable"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "timeago.inc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jimmi Westerberg",
+                    "homepage": "http://www.westsworld.dk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple module, that displays the date in a \"time ago\" format",
+            "homepage": "https://github.com/jimmiw/php-time-ago",
+            "keywords": [
+                "distance of time",
+                "time ago",
+                "time ago in words"
+            ],
+            "time": "2017-03-01T05:38:41+00:00"
         },
         {
             "name": "monolog/monolog",
