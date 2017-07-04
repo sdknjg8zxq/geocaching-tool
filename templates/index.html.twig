@@ -143,3 +143,9 @@
         });
     </script>
 {% endblock %}
+
+{% block meta %}
+    {{ parent() }}
+    <meta name="description" content="A geocaching tool for bluetooth beacons, create caches for your beacons easily" />
+    <meta name="google" content="nositelinkssearchbox" />
+{% endblock %}
