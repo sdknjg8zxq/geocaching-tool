@@ -78,3 +78,12 @@
         });
     </script>
 {% endblock %}
+
+{% block meta %}
+    {{ parent() }}
+    <meta name="HandheldFriendly" content="true">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="Click to see where to find it" />
+    <meta name="author" content="{{ cache.author }}">
+    <meta name="keywords" content="" />
+{% endblock %}

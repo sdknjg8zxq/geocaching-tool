@@ -3,6 +3,10 @@
     <head>
         <title>{% block title '' %}</title>
 
+        {% block meta %}
+            <meta charset="UTF-8">
+        {% endblock %}
+
         {% block stylesheets %}
             <link href="{{ asset('Semantic-UI-CSS-master/semantic.min.css') }}" rel="stylesheet" type="text/css" />
             <link href="{{ asset('css/main.css') }}" rel="stylesheet" type="text/css" />
