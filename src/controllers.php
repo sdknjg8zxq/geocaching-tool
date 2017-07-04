@@ -51,7 +51,7 @@ $app->get('/cache/{hash}', function (Silex\Application $app, $hash) {
 })->bind('cache');
 
 // Create new cache(treasure)
-$app->match('new', function (Request $request) use ($app) {
+$app->match('/new', function (Request $request) use ($app) {
     $form = $app['form.factory']->createBuilder(FormType::class)
         ->add('title', TextType::class, array(
             'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('max' => 80))),
