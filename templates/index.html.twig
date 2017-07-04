@@ -11,8 +11,8 @@
             margin-left: 210px;
             padding: 25px;
         }
-        #cache-cards-group .card .image {
-            height: 200px;
+        #cache-cards-group .card .image, .ui.medium.image {
+            height: 240px;
             background-size: cover;
             background-position: 50% 50%;
         }
@@ -32,7 +32,7 @@
             {# Treasure cards group#}
             <div id="cache-cards-group" class="ui link cards">
                 {% for cache in caches %}
-                <div class="card">
+                <div class="cache card" data-hash="{{ cache.hash }}">
                     <div class="image" style="background-image: url({{ asset('files/images/') }}{{ cache.hash }})">
                     </div>
                     <div class="content">
@@ -56,6 +56,42 @@
                 </div>
                 {% endfor %}
             </div>
+
+            {# Cache modals #}
+            {% for cache in caches %}
+                <div class="ui small modal" id="modal-{{ cache.hash }}">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Treasure details
+                    </div>
+                    <div class="image content">
+                        <div class="ui medium image" style="background-image: url({{ asset('files/images/') }}{{ cache.hash }})">
+                        </div>
+                        <div class="description">
+                            <p><strong>Author:</strong> {% if cache.author %}{{ cache.author }}{% else %}--{% endif %}</p>
+                            <p><strong>Title:</strong> {{ cache.title }}</p>
+                            <p><strong>Message:</strong> {{ cache.message }}</p>
+                            <p><strong>Clue:</strong> {% if cache.clue %}{{ cache.clue }}{% else %}--{% endif %}</p>
+                            <p><strong>Published:</strong> {{ cache.creation_time_ago }}</p>
+                            <p><strong>Views:</strong> {{ cache.views_count }}</p>
+                            <div class="ui divider"></div>
+                            <div class="ui labeled input">
+                                <div class="ui label">
+                                    Short URL
+                                </div>
+                                <input class="short-url-input" type="text" placeholder="Short URL" readonly="readonly" value="{{ cache.short_url }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <div class="left floated ui negative button">Delete</div>
+                        <a class="ui positive right labeled icon button" target="_blank" href="{{ path('cache', {'hash': cache.hash}) }}?preview">
+                            Preview
+                            <i class="eye icon"></i>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
         {% else %}
             <div id="welcome-segment" class="ui basic segment">
                 <h1 class="ui header">
@@ -82,6 +118,14 @@
         $(document).ready(function() {
             $('.short-url-input').on('click', function () {
                 $(this).select();
+            });
+            $('.cache.card .short-url-input').on('click', function () {
+                return false;
+            });
+            $('.cache.card').on('click', function () {
+                var hash = $(this).attr('data-hash');
+                {# Show modal of this cache #}
+                $('#modal-' + hash).modal('show');
             });
         });
     </script>
