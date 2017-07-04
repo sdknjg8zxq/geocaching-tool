@@ -3,6 +3,7 @@
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -111,6 +112,57 @@ $app->match('/new', function (Request $request) use ($app) {
     ));
 
 })->bind('new cache');
+
+// Delete a cache
+$app->match('/delete/{hash}', function (Request $request, $hash) use ($app) {
+
+    // Check if cache exists and that it belongs to this users
+    $user = $app['user'];
+
+    // If cache is not found for this user, redirect to homepage
+    $cache = $user->getCacheByHash($hash);
+    if (!$cache) {
+        return $app->redirect($app["url_generator"]->generate("homepage"));
+    }
+
+    // Set default values for form
+    $defaults =  array(
+        'hash' => $hash
+    );
+
+    // Build form
+    $form = $app['form.factory']->createBuilder(FormType::class, $defaults)
+        ->add('hash', HiddenType::class, array(
+            'constraints' => array(new Assert\NotBlank())
+        ))
+        ->getForm();
+
+    // Handle form submission
+    $form->handleRequest($request);
+
+    // If form is submitted and valid
+    if ($form->isSubmitted() && $form->isValid()) {
+        $data = $form->getData();
+
+        // If cache is not found for this user, redirect to homepage
+        $cache = $user->getCacheByHash($hash);
+        if (!$cache) {
+            return $app->redirect($app["url_generator"]->generate("homepage"));
+        }
+
+        // Delete cache
+        $user->deleteCache($data['hash']);
+        unlink(getcwd() . '/files/images/' . $hash); // Delete image
+        return $app->redirect($app["url_generator"]->generate("homepage"));
+    }
+
+    // Normal view rendering
+    return $app['twig']->render('delete-cache.html.twig', array(
+        'form' => $form->createView(),
+        'cache' => $cache
+    ));
+
+})->bind('delete cache');
 
 // Error
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
