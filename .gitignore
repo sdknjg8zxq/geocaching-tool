@@ -1,3 +1,4 @@
 /vendor/
 /docker/db/
 /web/files/
+/config/prod.php

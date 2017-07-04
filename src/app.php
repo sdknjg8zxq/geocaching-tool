@@ -18,16 +18,7 @@ $app['twig'] = $app->extend('twig', function ($twig, $app) {
 
     return $twig;
 });
-$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-    'db.options' => array(
-        'driver' => 'pdo_mysql',
-        'host' => 'db',
-        'dbname' => 'geocaching',
-        'user' => 'root',
-        'password' => 'mysql',
-        'port' => 3306
-    ),
-));
+$app->register(new Silex\Provider\DoctrineServiceProvider());
 $app->register(new \GeocachingTool\Provider\UserServiceProvider());
 $app->register(new FormServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider(), array(
