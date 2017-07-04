@@ -74,8 +74,7 @@
                             <p><strong>Clue:</strong> {% if cache.clue %}{{ cache.clue }}{% else %}--{% endif %}</p>
                             <p><strong>Published:</strong> {{ cache.creation_time_ago }}</p>
                             <p><strong>Views:</strong> {{ cache.views_count }}</p>
-                            <div class="ui divider"></div>
-                            <div class="ui labeled input">
+                            <div class="ui small labeled input">
                                 <div class="ui label">
                                     Short URL
                                 </div>
@@ -84,7 +83,7 @@
                         </div>
                     </div>
                     <div class="actions">
-                        <div class="left floated ui negative button">Delete</div>
+                        <a href="{{ path('delete cache', {'hash': cache.hash}) }}" class="left floated ui negative button">Delete</a>
                         <a class="ui positive right labeled icon button" target="_blank" href="{{ path('cache', {'hash': cache.hash}) }}?preview">
                             Preview
                             <i class="eye icon"></i>
@@ -125,7 +124,18 @@
             $('.cache.card').on('click', function () {
                 var hash = $(this).attr('data-hash');
                 {# Show modal of this cache #}
-                $('#modal-' + hash).modal('show');
+                $('#modal-' + hash)
+                    .modal({
+                        onApprove: function () {
+                            return false
+                        },
+                        onDeny: function () {
+                            return false
+                        }
+                    })
+                    .modal('setting', 'autofocus', false)
+                    .modal('setting', 'duration', 350)
+                    .modal('show');
             });
         });
     </script>
