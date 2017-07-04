@@ -164,6 +164,15 @@ $app->match('/delete/{hash}', function (Request $request, $hash) use ($app) {
 
 })->bind('delete cache');
 
+// Help
+$app->get('/help', function  () use ($app) {
+
+    return $app['twig']->render('help.html.twig', array(
+        'version' => $app['version'],
+        'github_url' => $app['github_url']
+    ));
+})->bind('help');
+
 // Error
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     if ($app['debug']) {

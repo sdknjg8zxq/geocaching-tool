@@ -1,0 +1,112 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}
+    Delete treasure | Geocaching Tool
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #content {
+            margin-left: 210px;
+            padding: 25px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {# Include left menu #}
+    {% include 'menu.html.twig' with {'active_item': 'help'} %}
+
+    {# Content #}
+    <div id="content">
+        <div class="ui basic segment">
+            <h1 class="ui dividing header">
+                Geocaching Tool
+                <div class="sub header">Version {{ version }}</div>
+            </h1>
+
+            <div class="ui styled accordion">
+                <div class="title active">
+                    <i class="dropdown icon"></i>
+                    How does it work?
+                </div>
+                <div class="content active">
+                    <p>This tool helps you easily create caches(treasures) for your Bluetooth beacons.</p>
+                    <p>When you create a treasure you get a short URL pointing to a secure site. All you have to do is point your beacon to that URL.</p>
+                </div>
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    Creating a treasure
+                </div>
+                <div class="content">
+                    <p>Follow these steps to create a treasure:</p>
+                    <ol class="ui list">
+                        <li>Click "Create treasure" on the left menu</li>
+                        <li>Enter the details for your treasure and click the "Create" button</li>
+                        <li>Point your beacon to the short URL assigned to your new treasure</li>
+                    </ol>
+                    <p>Note: The "Author" and "Clue" fields are optional.</p>
+                </div>
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    Previewing a treasure
+                </div>
+                <div class="content">
+                    <p>Follow these steps to preview a treasure:</p>
+                    <ol class="ui list">
+                        <li>Click "My treasures" on the left menu</li>
+                        <li>Click the treasure you want to preview</li>
+                        <li>On the "Treasure details" window, click the "Preview" button</li>
+                    </ol>
+                    <p>Note: Previews don't increment the view count</p>
+                </div>
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    Editing a treasure
+                </div>
+                <div class="content">
+                    <p>The option to edit a treasure is not available on the current version <i class="birthday icon"></i></p>
+                </div>
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    Deleting a treasure
+                </div>
+                <div class="content">
+                    <p>Follow these steps to delete a treasure:</p>
+                    <ol class="ui list">
+                        <li>Click "My treasures" on the left menu</li>
+                        <li>Click the treasure you want to delete</li>
+                        <li>On the "Treasure details" window, click the "Delete" button</li>
+                        <li>On the confirmation page, click the "Delete" button</li>
+                    </ol>
+                    <p>Note: This action cannot be undone</p>
+                    <p>Note 2: The real treasure won't be deleted from the physical world</p>
+                </div>
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    How do view counts work?
+                </div>
+                <div class="content">
+                    <p>Every time a treasure's short URL is visited, the view count is incremented by one. This gives you an idea of how many people have seen your treasure.</p>
+                    <p>Note: Previews don't increment the view count</p>
+                </div>
+            </div>
+            <div class="ui divider"></div>
+            <a class="ui black button" href="{{ github_url }}">
+                <i class="github icon"></i>
+                GitHub
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript%}
+    <script>
+        $(document).ready(function() {
+            $('.ui.accordion')
+                .accordion()
+            ;
+        });
+    </script>
+{% endblock %}
