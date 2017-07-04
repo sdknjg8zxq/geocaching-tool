@@ -192,4 +192,45 @@ class User
             ->setParameter(10, $shortURL);
         $queryBuilder->execute();
     }
+
+    /**
+     * Returns array representing the cache or false if it's not found
+     *
+     * @return mixed
+     */
+    public function getCacheByHash($hash) {
+        $queryBuilder = $this->app['db']->createQueryBuilder();
+        $queryBuilder
+            ->select('*')
+            ->from('cache')
+            ->where('user_id = ?')
+            ->andWhere('hash = ?')
+            ->setParameter(0, $this->getId())
+            ->setParameter(1, $hash);
+        $result = $queryBuilder->execute()->fetch();
+
+        // Add creation_time_ago to cache
+        $timeAgo = new \TimeAgo();
+        if ($result) {
+            $result['creation_time_ago'] = $timeAgo->inWords($result['creation_moment']);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Deletes cache by hash if it belongs to this user
+     *
+     * @param $hash
+     */
+    public function deleteCache($hash) {
+        $queryBuilder = $this->app['db']->createQueryBuilder();
+        $queryBuilder
+            ->delete('cache')
+            ->where('user_id = ?')
+            ->andWhere('hash = ?')
+            ->setParameter(0, $this->getId())
+            ->setParameter(1, $hash);
+        $queryBuilder->execute();
+    }
 }
