@@ -38,6 +38,12 @@ $app->get('/cache/{hash}', function (Silex\Application $app, $hash) {
         });
     }
 
+    // Increase view count if it's not a preview
+    $isPreview = isset($_REQUEST['preview']);
+    if (!$isPreview) {
+        Cache::incrementView($app, $cache['hash']);
+    }
+
     return $app['twig']->render('cache.html.twig', array(
         'cache' => $cache
     ));

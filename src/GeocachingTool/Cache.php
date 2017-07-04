@@ -194,4 +194,14 @@ class Cache
     public static function getNewHash() {
         return md5(uniqid());
     }
+
+    public static function incrementView($app, $hash) {
+        $queryBuilder = $app['db']->createQueryBuilder();
+        $queryBuilder
+            ->update('cache', 'c')
+            ->where('hash = ?')
+            ->set('c.views_count', 'c.views_count + 1')
+            ->setParameter(0, $hash);
+        $queryBuilder->execute();
+    }
 }
