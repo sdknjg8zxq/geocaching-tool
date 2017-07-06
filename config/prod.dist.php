@@ -17,3 +17,4 @@ $app['google.options'] = array(
 );
 $app['github_url'] = 'https://github.com/eibt/geocaching-tool';
 $app['version'] = '0.1';
+$app['require_https'] = true;

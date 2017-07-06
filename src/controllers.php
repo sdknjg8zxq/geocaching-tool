@@ -189,3 +189,6 @@ $app->error(function (\Exception $e, Request $request, $code) use ($app) {
 
     return new Response($app['twig']->resolveTemplate($templates)->render(array('code' => $code)), $code);
 });
+
+// Always use HTTPS
+$app['require_https'] ? $app['controllers']->requireHttps() : false;
