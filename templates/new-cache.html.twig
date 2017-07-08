@@ -42,12 +42,12 @@
                 <div class="two fields">
                     <div class="field">
                         {{ form_label(form.title) }}
-                        {{ form_widget(form.title, {'attr': {'placeholder': 'A treasure is nearby', 'autofocus': 'autofocus'}}) }}
+                        {{ form_widget(form.title, {'attr': {'placeholder': 'A treasure is nearby', 'autofocus': 'autofocus', 'maxlength': 80}}) }}
                         {{ form_errors(form.title) }}
                     </div>
                     <div class="field">
                         {{ form_label(form.author) }}
-                        {{ form_widget(form.author, {'attr': {'placeholder': 'Your name, nickname, or company name'}}) }}
+                        {{ form_widget(form.author, {'attr': {'placeholder': 'Your name, nickname, or company name', 'maxlength': 50}}) }}
                         {{ form_errors(form.author) }}
                     </div>
                 </div>
