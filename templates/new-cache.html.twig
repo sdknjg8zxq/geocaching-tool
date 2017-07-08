@@ -63,7 +63,7 @@
                 </div>
                 <div class="field">
                     {{ form_label(form.clue) }}
-                    {{ form_widget(form.clue, {'attr': {'placeholder': 'Leave a clue to find this treasure'}}) }}
+                    {{ form_widget(form.clue, {'attr': {'placeholder': 'Leave a clue to find this treasure', 'rows': 2, 'maxlength': 140}}) }}
                     {{ form_errors(form.clue) }}
                 </div>
             {{ form_errors(form) }}

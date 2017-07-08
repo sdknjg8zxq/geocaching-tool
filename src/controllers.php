@@ -66,8 +66,8 @@ $app->match('/new', function (Request $request) use ($app) {
             'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('max' => 140))),
             'label' => 'Message *'
         ))
-        ->add('clue', TextType::class, array(
-            'constraints' => array(new Assert\Length(array('max' => 80))),
+        ->add('clue', TextareaType::class, array(
+            'constraints' => array(new Assert\Length(array('max' => 140))),
             'required' => false
         ))
         ->add('image', FileType::class, array(
