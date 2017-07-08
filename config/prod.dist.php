@@ -10,7 +10,8 @@ $app['db.options'] = array(
     'dbname' => 'geocaching',
     'user' => 'user',
     'password' => 'password',
-    'port' => 3306
+    'port' => 3306,
+    'charset' => 'utf8'
 );
 $app['google.options'] = array(
     'api_key' => 'YOUR_GOOGLE_API_KEY'
