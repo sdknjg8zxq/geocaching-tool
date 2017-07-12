@@ -232,6 +232,14 @@
                     } else {
                         $('#preview-column').css('padding-bottom', '20px');
                     }
+
+                    if (this.clue) {
+                        $('#message-segment').removeClass('ui bottom attached center aligned segment')
+                            .addClass('ui attached center aligned segment');
+                    } else {
+                        $('#message-segment').removeClass('ui attached center aligned segment')
+                            .addClass('ui bottom attached center aligned segment');
+                    }
                 } else {
                     this.hide();
                     this.updateStatus();
