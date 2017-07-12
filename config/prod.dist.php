@@ -17,5 +17,4 @@ $app['google.options'] = array(
     'api_key' => 'YOUR_GOOGLE_API_KEY'
 );
 $app['github_url'] = 'https://github.com/eibt/geocaching-tool';
-$app['version'] = '0.2';
 $app['require_https'] = true;

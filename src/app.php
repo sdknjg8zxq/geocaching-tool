@@ -26,4 +26,7 @@ $app->register(new Silex\Provider\TranslationServiceProvider(), array(
 ));
 $app->register(new LocaleServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
+
+$app['version'] = '0.3';
+
 return $app;
