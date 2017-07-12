@@ -9,19 +9,38 @@
     <style>
         #content {
             margin-left: 210px;
-            padding: 25px;
         }
         #cache-cards-group .card .image {
             height: 200px;
             background-size: cover;
             background-position: 50% 50%;
         }
-        .ui.form {
-            max-width: 800px;
-        }
         #required-field-notice {
             color: #999;
             font-size: 12px;
+        }
+        #preview-column {
+            background-color: #f9f9f9;
+            padding: 39px 45px;
+            padding-bottom: 20px;
+            min-height: 100vh;
+        }
+        #form-column {
+            padding: 39px;
+        }
+        #preview-content {
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #preview-treasure {
+            display: none;
+        }
+        #preview-title, #message-segment {
+            overflow: auto;
+        }
+        #author-segment {
+            padding-top: 0;
         }
     </style>
 {% endblock %}
@@ -33,43 +52,252 @@
     {# Content #}
     <div id="content">
         <div class="ui basic segment">
-            <h1 class="ui dividing header">
-                <div class="content">
-                    New treasure
-                </div>
-            </h1>
-            {{ form_start(form, {'attr': {'class': 'ui form'}}) }}
-                <div class="two fields">
+            <div class="ui grid">
+                <div id="form-column" class="eight wide column">
+                    <h1 class="ui dividing header">
+                        <div class="content">
+                            New treasure
+                        </div>
+                    </h1>
+                    {{ form_start(form, {'attr': {'class': 'ui form'}}) }}
                     <div class="field">
                         {{ form_label(form.title) }}
-                        {{ form_widget(form.title, {'attr': {'placeholder': 'A treasure is nearby', 'autofocus': 'autofocus', 'maxlength': 80}}) }}
+                        {{ form_widget(form.title, {'attr': {'placeholder': 'A treasure is nearby', 'maxlength': 80, 'autofocus': 'autofocus'}}) }}
                         {{ form_errors(form.title) }}
+                    </div>
+                    <div class="field">
+                        {{ form_label(form.image) }}
+                        {{ form_widget(form.image, {'attr': {'accept': 'image/*'}}) }}
+                        {{ form_errors(form.image) }}
+                    </div>
+                    <div class="field">
+                        {{ form_label(form.message) }}
+                        {{ form_widget(form.message, {'attr': {'placeholder': 'Find me if you can...', 'rows': 2, 'maxlength': 140}}) }}
+                        {{ form_errors(form.message) }}
+                    </div>
+                    <div class="field">
+                        {{ form_label(form.clue) }}
+                        {{ form_widget(form.clue, {'attr': {'placeholder': 'Leave a clue to find this treasure', 'rows': 2, 'maxlength': 140}}) }}
+                        {{ form_errors(form.clue) }}
                     </div>
                     <div class="field">
                         {{ form_label(form.author) }}
                         {{ form_widget(form.author, {'attr': {'placeholder': 'Your name, nickname, or company name', 'maxlength': 50}}) }}
                         {{ form_errors(form.author) }}
                     </div>
+                    {{ form_errors(form) }}
+                    <button class="ui primary button" type="submit">Create</button>
+                    <p id="required-field-notice">* Required field</p>
+                    {{ form_end(form) }}
                 </div>
-                <div class="field">
-                    {{ form_label(form.message) }}
-                    {{ form_widget(form.message, {'attr': {'placeholder': 'Find me if you can...', 'rows': 2, 'maxlength': 140}}) }}
-                    {{ form_errors(form.message) }}
+                <div id="preview-column" class="eight wide column">
+                    <div id="preview-content">
+                        {# Preview not avaiable container#}
+                        <div id="preview-not-ready-container">
+                            {# Preview message #}
+                            <div class="ui icon blue message">
+                                <i class="notched eye icon"></i>
+                                <div class="content">
+                                    <div class="header">
+                                        Preview
+                                    </div>
+                                    <p>To see a preview add a title, message, and image.</p>
+                                </div>
+                            </div>
+                            {# Preview required fields#}
+                            <div class="ui list">
+                                <div id="preview-status-title" class="item">
+                                    <i class="red help circle icon"></i>
+                                    <div class="content">
+                                        Title
+                                    </div>
+                                </div>
+                                <div id="preview-status-image" class="item">
+                                    <i class="red help circle icon"></i>
+                                    <div class="content">
+                                        Image
+                                    </div>
+                                </div>
+                                <div id="preview-status-message" class="item">
+                                    <i class="red help circle icon"></i>
+                                    <div class="content">
+                                        Message
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {# Preview treasure item #}
+                        <div id="preview-treasure" class="column">
+                            <h1 id="preview-title" class="ui top attached centered header">
+                            </h1>
+                            <div class="ui center aligned attached segment">
+                                <img id="preview-image" class="ui fluid image" src="">
+                            </div>
+                            <div id="message-segment" class="ui attached center aligned segment">
+                                <p id="preview-message"></p>
+                            </div>
+                            <div id="clue-segment" class="ui bottom attached center aligned segment">
+                                <button id="clue-button" class="ui blue big button">
+                                    <i class="talk icon"></i>
+                                    Show clue
+                                </button>
+                            </div>
+                            <div id="author-segment" class="ui basic center aligned segment">
+                                <i class="archive icon"></i> Treasure left by <span id="preview-author"></span>
+                            </div>
+                        </div>
+
+                        {# Clue dimmer #}
+                        <div id="preview-clue-dimmer" class="ui page dimmer">
+                            <div class="content">
+                                <div class="center">
+                                    <h2 class="ui inverted icon header">
+                                        <i class="talk icon"></i>
+                                        Clue
+                                        <div id="preview-clue" class="sub header"></div>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="field">
-                    {{ form_label(form.image) }}
-                    {{ form_widget(form.image, {'attr': {'accept': 'image/*'}}) }}
-                    {{ form_errors(form.image) }}
-                </div>
-                <div class="field">
-                    {{ form_label(form.clue) }}
-                    {{ form_widget(form.clue, {'attr': {'placeholder': 'Leave a clue to find this treasure', 'rows': 2, 'maxlength': 140}}) }}
-                    {{ form_errors(form.clue) }}
-                </div>
-            {{ form_errors(form) }}
-                <button class="ui primary button" type="submit">Create</button>
-                <p id="required-field-notice">* Required field</p>
-            {{ form_end(form) }}
+            </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var preview = {};
+        $(document).ready(function() {
+            {# Get values from form fields to the preview object properties #}
+            preview.getValuesFromFields = function () {
+                this.title = $('#form_title').val().trim();
+                this.image = $('#form_image').val().trim();
+                this.message = $('#form_message').val().trim();
+                this.clue = $('#form_clue').val().trim();
+                this.author = $('#form_author').val().trim();
+            };
+            {# Check if preview is valid based on required form fields #}
+            preview.isValid = function () {
+                this.getValuesFromFields();
+                return Boolean(this.title) && Boolean(this.image) && Boolean(this.message);
+            };
+            {# Update the status to show to the user what fields are still required #}
+            preview.updateStatus = function () {
+                this.getValuesFromFields();
+
+                var validIconClass = 'green check circle icon';
+                var invalidIconClass = 'red help circle icon';
+
+                var previewStatusFields = new Map([
+                    ['title', $('#preview-status-title')],
+                    ['image', $('#preview-status-image')],
+                    ['message', $('#preview-status-message')]
+                ]);
+
+                previewStatusFields.forEach( function (value, key) {
+                    if (preview[key]) {
+                        value.find('i').removeClass(invalidIconClass).addClass(validIconClass);
+                    } else {
+                        value.find('i').removeClass(validIconClass).addClass(invalidIconClass);
+                    }
+                });
+            };
+            {# Update preview (hide or show, and update) #}
+            preview.update = function () {
+                if (this.isValid()) {
+                    this.show();
+                    {# Update values on preview#}
+                    $('#preview-title').text(this.title);
+                    $('#preview-message').text(this.message);
+                    $('#preview-clue').text(this.clue);
+                    $('#preview-author').text(this.author);
+
+                    if (this.clue) {
+                        this.showClue();
+                    } else {
+                        this.hideClue();
+                    }
+
+                    if (this.author) {
+                        this.showAuthor();
+                    } else {
+                        this.hideAuthor();
+                    }
+
+                    if (!this.author && !this.clue) {
+                        $('#preview-column').css('padding-bottom', '39px');
+                    } else {
+                        $('#preview-column').css('padding-bottom', '20px');
+                    }
+                } else {
+                    this.hide();
+                    this.updateStatus();
+                }
+            };
+
+            preview.show = function() {
+                if (!this.isVisible) {
+                    $('#preview-not-ready-container').transition('toggle');
+                    $('#preview-treasure').transition('scale');
+                    this.isVisible = true;
+                }
+            };
+
+            preview.hide = function() {
+                if (this.isVisible) {
+                    $('#preview-treasure').transition('drop');
+                    $('#preview-not-ready-container').transition('toggle');
+                    this.isVisible = false;
+                }
+            };
+
+            preview.hideClue = function() {
+                $('#clue-segment').css('display', 'none');
+            };
+
+            preview.showClue = function() {
+                $('#clue-segment').css('display', 'block');
+            };
+
+            preview.hideAuthor = function() {
+                $('#author-segment').css('display', 'none');
+            };
+
+            preview.showAuthor = function() {
+                $('#author-segment').css('display', 'block');
+            };
+
+            $('#clue-button').on('click', function () {
+                $('#preview-clue-dimmer')
+                    .dimmer('toggle')
+                ;
+            });
+
+            {# Update image preview #}
+            document.getElementById("form_image").onchange = function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // get loaded data and render thumbnail.
+                    document.getElementById("preview-image").src = e.target.result;
+                };
+
+                // read the image file as a data URL.
+                reader.readAsDataURL(this.files[0]);
+            };
+
+            preview.update();
+        });
+
+        $('#form_title, #form_message, #form_clue, #form_author').on('input', function () {
+            preview.update();
+        });
+
+        $('#form_image').on('change', function () {
+            preview.update();
+        });
+    </script>
 {% endblock %}
