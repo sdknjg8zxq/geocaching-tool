@@ -23,19 +23,22 @@
             padding-top: 0;
             padding-bottom: 0;
         }
+        #title-segment, #message-segment {
+            overflow: auto;
+        }
     </style>
 {% endblock %}
 
 {% block content %}
     <div id="main-grid" class="ui centered grid">
         <div class="column">
-                <h1 class="ui top attached centered header">
+                <h1 id="title-segment" class="ui top attached centered header">
                     {{ cache.title }}
                 </h1>
                 <div class="ui center aligned attached segment">
                     <img class="ui fluid image" src="{{ asset('files/images/') }}{{ cache.hash }}">
                 </div>
-                <div class="ui {% if not cache.clue %}bottom {% endif %}attached center aligned segment">
+                <div id="message-segment" class="ui {% if not cache.clue %}bottom {% endif %}attached center aligned segment">
                     <p>{{ cache.message }}</p>
                 </div>
                 {% if cache.clue %}
