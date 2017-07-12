@@ -9,12 +9,12 @@ When you create a treasure you get a short URL pointing to a secure site, then a
 
 .. image:: http://i.imgur.com/d6IMkik.png
    :align: center
-   
-.. image:: http://i.imgur.com/lWO6wLJ.png
-   :align: center
 
 .. image:: http://i.imgur.com/C6locWy.png
    :align: center
-   
+
+.. image:: http://i.imgur.com/lWO6wLJ.png
+   :align: center
+
 .. image:: http://i.imgur.com/OfmvKdh.png
    :align: center
