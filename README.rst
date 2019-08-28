@@ -1,3 +1,5 @@
+Important notice: https://f.ruuvi.com/t/google-is-discontinuing-support-for-android-nearby-messages/1294
+
 Geocaching Tool
 ==============
 
